@@ -1,4 +1,3 @@
-
 import { MenuItem, MenuCategory, Reservation, RestaurantConfig, Notification } from '@/types';
 
 // Menu do restaurante
@@ -207,7 +206,8 @@ export const getDashboardStats = () => {
   });
   
   const tablesBooked = reservationsToday.reduce((total, res) => total + res.tableCount, 0);
-  const availableTables = restaurantConfig.capacity.tables - tablesBooked;
+  const totalTables = restaurantConfig.capacity.tables;
+  const availableTables = totalTables - tablesBooked;
   
   const upcomingReservations = reservations.filter(res => {
     const resDate = new Date(res.date);
@@ -220,6 +220,7 @@ export const getDashboardStats = () => {
     availableTables,
     totalTablesBooked: tablesBooked,
     upcomingReservations,
+    totalTables,  // Add this property to fix the error
   };
 };
 

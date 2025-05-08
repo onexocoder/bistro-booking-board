@@ -5,13 +5,16 @@ import { LayoutDashboard, Calendar, Menu as MenuIcon, Settings, Bell, Search, Ch
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
-import { notifications, getDashboardStats } from '@/data/mockData';
+import { notifications, getDashboardStats, menuItems as menuItemsData } from '@/data/mockData';
 
 const AdminSidebar: React.FC = () => {
   const location = useLocation();
   const [collapsed, setCollapsed] = useState(false);
   const unreadNotifications = notifications.filter(n => !n.isRead).length;
   const stats = getDashboardStats();
+  
+  // Calculate the number of daily special menu items
+  const dailySpecialCount = menuItemsData.filter(item => item.isDailySpecial).length;
 
   const menuItems = [
     {
@@ -23,7 +26,7 @@ const AdminSidebar: React.FC = () => {
       icon: <MenuIcon size={20} />,
       label: 'Menu do Dia',
       path: '/admin/menu',
-      badge: menuItems => menuItems.filter(item => item.isDailySpecial).length
+      badge: dailySpecialCount
     },
     {
       icon: <Calendar size={20} />,
@@ -77,7 +80,7 @@ const AdminSidebar: React.FC = () => {
                 <span className="flex-shrink-0">{item.icon}</span>
                 {!collapsed && <span className="ml-3">{item.label}</span>}
               </div>
-              {!collapsed && item.badge && (
+              {!collapsed && item.badge !== undefined && (
                 <Badge variant="secondary" className="ml-auto">
                   {item.badge}
                 </Badge>
