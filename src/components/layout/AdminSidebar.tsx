@@ -1,7 +1,10 @@
 
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Calendar, Menu as MenuIcon, Settings, Bell, Search, ChevronLeft, ChevronRight, Users } from 'lucide-react';
+import { 
+  LayoutDashboard, Calendar, Menu as MenuIcon, Settings, 
+  Bell, ChevronLeft, ChevronRight, Users, BarChart3 
+} from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
@@ -21,6 +24,12 @@ const AdminSidebar: React.FC = () => {
       icon: <LayoutDashboard size={20} />,
       label: 'Dashboard',
       path: '/admin',
+    },
+    {
+      icon: <BarChart3 size={20} />,
+      label: 'Desempenho',
+      path: '/admin/dashboard',
+      badge: stats.upcomingReservations
     },
     {
       icon: <MenuIcon size={20} />,
