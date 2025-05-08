@@ -12,7 +12,6 @@ import PublicLayout from "./components/layout/PublicLayout";
 // Public pages
 import Index from "./pages/Index";
 import Menu from "./pages/Menu";
-import Reservations from "./pages/Reservations";
 import NotFound from "./pages/NotFound";
 
 // Admin pages
@@ -38,7 +37,6 @@ const App = () => (
             <Route element={<PublicLayout />}>
               <Route path="/" element={<Index />} />
               <Route path="/menu" element={<Menu />} />
-              <Route path="/reservations" element={<Reservations />} />
             </Route>
             
             {/* Admin Routes */}

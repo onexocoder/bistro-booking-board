@@ -1,16 +1,17 @@
 
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Calendar, Menu as MenuIcon, Settings, Bell, Search, ChevronLeft, ChevronRight } from 'lucide-react';
+import { LayoutDashboard, Calendar, Menu as MenuIcon, Settings, Bell, Search, ChevronLeft, ChevronRight, Users } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
-import { notifications } from '@/data/mockData';
+import { notifications, getDashboardStats } from '@/data/mockData';
 
 const AdminSidebar: React.FC = () => {
   const location = useLocation();
   const [collapsed, setCollapsed] = useState(false);
   const unreadNotifications = notifications.filter(n => !n.isRead).length;
+  const stats = getDashboardStats();
 
   const menuItems = [
     {
@@ -22,11 +23,13 @@ const AdminSidebar: React.FC = () => {
       icon: <MenuIcon size={20} />,
       label: 'Menu do Dia',
       path: '/admin/menu',
+      badge: menuItems => menuItems.filter(item => item.isDailySpecial).length
     },
     {
       icon: <Calendar size={20} />,
       label: 'Reservas',
       path: '/admin/reservations',
+      badge: stats.totalReservationsToday
     },
     {
       icon: <Settings size={20} />,
@@ -67,11 +70,18 @@ const AdminSidebar: React.FC = () => {
                 location.pathname === item.path
                   ? "bg-sidebar-accent text-sidebar-accent-foreground"
                   : "text-sidebar-foreground hover:bg-sidebar-accent/50",
-                collapsed ? "justify-center" : "justify-start"
+                collapsed ? "justify-center" : "justify-between"
               )}
             >
-              <span className="flex-shrink-0">{item.icon}</span>
-              {!collapsed && <span className="ml-3">{item.label}</span>}
+              <div className="flex items-center">
+                <span className="flex-shrink-0">{item.icon}</span>
+                {!collapsed && <span className="ml-3">{item.label}</span>}
+              </div>
+              {!collapsed && item.badge && (
+                <Badge variant="secondary" className="ml-auto">
+                  {item.badge}
+                </Badge>
+              )}
             </Link>
           ))}
         </nav>
